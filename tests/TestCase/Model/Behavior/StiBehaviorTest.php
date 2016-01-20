@@ -65,7 +65,16 @@ class StiBehaviorTest extends TestCase
     public function testFindWithAssociation()
     {
         $results = $this->Table->find()->contain('Utensils')->toArray();
+        $this->assertArrayNotHasKey('age', $results[0]->toArray());
+        $this->assertEquals('Chef', $results[0]->role);
         $this->assertInstanceOf('Muffin\Sti\TestApp\Model\Entity\Spoon', $results[0]['utensils'][0]);
         $this->assertInstanceOf('Muffin\Sti\TestApp\Model\Entity\Electronic', $results[0]['utensils'][1]);
+    }
+
+    public function testFindWithHydrateFalse()
+    {
+        $results = $this->Table->find()->contain('Utensils')->hydrate(false)->toArray();
+        $this->assertTrue(is_array($results[0]));
+        $this->assertTrue(is_array($results[0]['utensils'][0]));
     }
 }
