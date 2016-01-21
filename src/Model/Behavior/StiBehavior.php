@@ -24,6 +24,16 @@ class StiBehavior extends Behavior
     public function initialize(array $config)
     {
         $this->verifyConfig();
+
+        $defaultEntityClass = $this->_table()->entityClass();
+        if ($defaultEntityClass === '\Cake\ORM\Entity') {
+            $defaultEntityClass = current(Hash::extract($this->_typeMap, '{s}.entityClass'));
+            $this->_table()->entityClass($defaultEntityClass);
+        }
+
+        if (!method_exists($defaultEntityClass, 'forCopy')) {
+            throw new \Exception();
+        }
     }
 
     public function verifyConfig()
@@ -84,37 +94,17 @@ class StiBehavior extends Behavior
             return;
         }
 
-        $assocs = $this->_table()->associations()->keys();
-
-        $mapper = function ($row) use ($assocs) {
-            foreach ($assocs as $k => $assoc) {
-                unset($assocs[$k]);
-                if ($row->has($assoc)) {
-                    $assocs[$assoc] = $row->$assoc;
-                    $row->unsetProperty($assoc);
-                }
-            }
-
-            $type = $row[$this->config('typeField')];
-            $entityClass = $this->_typeMap[$type]['entityClass'];
-            $entity = new $entityClass($row->toArray(), [
-                'markNew' => $row->isNew(),
-                'markClean' => true,
-                'guard' => false,
-                'source' => $this->_typeMap[$type]['alias'],
-            ]);
-            $entity->virtualProperties($row->virtualProperties());
-
-            foreach ($assocs as $assoc => $val) {
-                $entity->set($assoc, $val);
-                $entity->dirty($assoc, false);
-            }
-
-            return $entity;
-        };
-
-        $query->formatResults(function ($results) use ($mapper) {
-            return $results->map($mapper);
+        $query->formatResults(function ($results) {
+            return $results->map(function ($row) {
+                $type = $row[$this->config('typeField')];
+                $entityClass = $this->_typeMap[$type]['entityClass'];
+                return new $entityClass($row->forCopy(), [
+                    'markNew' => $row->isNew(),
+                    'markClean' => true,
+                    'guard' => false,
+                    'source' => $this->_typeMap[$type]['alias'],
+                ]);
+            });
         });
     }
 

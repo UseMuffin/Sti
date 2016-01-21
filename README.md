@@ -53,6 +53,10 @@ class CooksTable extends Table {
                 'assistant_chef' => 'App\Model\Entity\AssistantChef',
             ]
         ]);
+
+        // Optionally, set the default type. If none is defined, the
+        // first one (i.e. `chef`) will be used.
+        $this->entityClass('App\Model\Entity\AssistantChef');
     }
 }
 ```
@@ -62,6 +66,21 @@ Then create a class for every type of entity:
 - Chef
 - Baker
 - AssistantChef
+
+The entity that was previously defined to be the 'default' one will need to use the `StiAwareTrait`:
+
+```
+<?php // src/Model/Entity/AssistantChef.php
+namespace App\Model\Entity;
+
+use Cake\ORM\Entity;
+use Muffin\Model\Entity\StiAwareTrait;
+
+class AssistantChef extends Entity
+{
+    use StiAwareTrait;
+}
+```
 
 Optionally, you can create classes for your tables that extend the parent table to encapsulate business logic:
 

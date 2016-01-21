@@ -15,5 +15,6 @@ class UtensilsTable extends Table
                 'electronic' => 'Muffin\Sti\TestApp\Model\Entity\Electronic',
             ]
         ]);
+        $this->entityClass('Muffin\Sti\TestApp\Model\Entity\Spoon');
     }
 }
