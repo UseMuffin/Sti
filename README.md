@@ -74,7 +74,7 @@ The entity that was previously defined to be the 'default' one will need to use 
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-use Muffin\Model\Entity\StiAwareTrait;
+use Muffin\Sti\Model\Entity\StiAwareTrait;
 
 class AssistantChef extends Entity
 {
