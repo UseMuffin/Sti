@@ -73,7 +73,7 @@ class StiBehaviorTest extends TestCase
 
     public function testFindWithHydrateFalse()
     {
-        $results = $this->Table->find()->contain('Utensils')->hydrate(false)->toArray();
+        $results = $this->Table->find()->contain('Utensils')->disableHydration()->toArray();
         $this->assertTrue(is_array($results[0]));
         $this->assertTrue(is_array($results[0]['utensils'][0]));
     }

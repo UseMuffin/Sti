@@ -8,7 +8,7 @@ class CooksTable extends Table
 {
     public function initialize(array $config)
     {
-        $this->table('sti_cooks');
+        $this->setTable('sti_cooks');
         $this->addBehavior('Muffin/Sti.Sti', [
             'typeMap' => [
                 'chef' => 'Muffin\Sti\TestApp\Model\Entity\Chef',

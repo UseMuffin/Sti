@@ -25,7 +25,7 @@ class StiBehavior extends Behavior
     {
         $this->verifyConfig();
 
-        $defaultEntityClass = $this->_table()->entityClass();
+        $defaultEntityClass = $this->_table()->getEntityClass();
         if ($defaultEntityClass === '\Cake\ORM\Entity') {
             $defaultEntityClass = current(Hash::extract($this->_typeMap, '{s}.entityClass'));
             $this->_table()->entityClass($defaultEntityClass);
@@ -38,15 +38,15 @@ class StiBehavior extends Behavior
 
     public function verifyConfig()
     {
-        $config = $this->config();
+        $config = $this->getConfig();
         $table = $this->_table();
 
-        if (!in_array($config['typeField'], $table->schema()->columns())) {
+        if (!in_array($config['typeField'], $table->getSchema()->columns())) {
             throw new \Exception();
         }
 
         if (!$config['table']) {
-            $this->config('table', $table->table());
+            $this->setConfig('table', $table->getTable());
         }
 
         foreach ($config['typeMap'] as $key => $entityClass) {
@@ -90,13 +90,13 @@ class StiBehavior extends Behavior
 
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if (!$query->hydrate()) {
+        if (!$query->isHydrationEnabled()) {
             return;
         }
 
         $query->formatResults(function ($results) {
             return $results->map(function ($row) {
-                $type = $row[$this->config('typeField')];
+                $type = $row[$this->getConfig('typeField')];
                 $entityClass = $this->_typeMap[$type]['entityClass'];
                 return new $entityClass($row->forCopy(), [
                     'markNew' => $row->isNew(),
@@ -144,7 +144,7 @@ class StiBehavior extends Behavior
             throw new \Exception();
         }
 
-        $entity->set($this->config('typeField'), $types[$class]);
+        $entity->set($this->getConfig('typeField'), $types[$class]);
     }
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
@@ -164,8 +164,8 @@ class StiBehavior extends Behavior
     public function addType($key, $entityClass)
     {
         list($namespace, $entityName) = explode('\\Entity\\', $entityClass);
-        $connection = $this->_table->connection();
-        $table = $this->config('table');
+        $connection = $this->_table->getConnection();
+        $table = $this->getConfig('table');
         $alias = Inflector::pluralize($entityName);
         $className = $namespace . '\\Table\\' . $alias . 'Table';
         if (!class_exists($className)) {
@@ -186,6 +186,6 @@ class StiBehavior extends Behavior
         $this->_typeMap[$key] = compact('alias', 'entityClass', 'table', 'connection', 'className');
 
         $method = 'new' . Inflector::classify($entityName);
-        $this->config('implementedMethods.' . $method, $method);
+        $this->setConfig('implementedMethods.' . $method, $method);
     }
 }
