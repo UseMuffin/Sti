@@ -114,7 +114,7 @@ class StiBehavior extends Behavior
             return;
         }
 
-        $class = $event->subject()->entityClass();
+        $class = $event->getSubject()->getEntityClass();
 
         $types = array_combine(
             Hash::extract($this->_typeMap, '{s}.entityClass'),
@@ -149,7 +149,7 @@ class StiBehavior extends Behavior
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
-        $field = $this->config('typeField');
+        $field = $this->getConfig('typeField');
         if (empty($data[$field])) {
             return;
         }
@@ -158,7 +158,7 @@ class StiBehavior extends Behavior
             throw new \Exception();
         }
 
-        $this->_table()->entityClass($this->_typeMap[$data[$field]]['entityClass']);
+        $this->_table()->getEntityClass($this->_typeMap[$data[$field]]['entityClass']);
     }
 
     public function addType($key, $entityClass)
@@ -174,9 +174,9 @@ class StiBehavior extends Behavior
 
         if (TableRegistry::exists($alias)) {
             $existingTable = TableRegistry::get($alias);
-            if ($table !== $existingTable->table()
-                || $connection !== $existingTable->connection()
-                || $entityClass !== $existingTable->entityClass()
+            if ($table !== $existingTable->getTable()
+                || $connection !== $existingTable->getConnection()
+                || $entityClass !== $existingTable->getEntityClass()
             ) {
                 throw new \Exception();
             }
