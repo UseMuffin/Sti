@@ -64,7 +64,7 @@ class StiBehavior extends Behavior
             $args[0] = [];
         }
 
-        $args[0] += [$this->config('typeField') => $type];
+        $args[0] += [$this->getConfig('typeField') => $type];
         return call_user_func_array([$this->_table($type), 'newEntity'], $args);
     }
 
