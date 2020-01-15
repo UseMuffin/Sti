@@ -57,10 +57,10 @@ script:
   - if [[ $CHECKS == 1 ]]; then composer phpstan-setup && composer phpstan; fi
   - if [[ $CHECKS == 1 ]]; then composer cs-check; fi
 
-  - if [[ $CODECOVERAGE == 1 ]]; then phpdbg -qrr vendor/bin/phpunit --coverage-clover=clover.xml; fi
+  - if [[ $CODECOVERAGE == 1 ]]; then phpdbg -qrr vendor/bin/phpunit --stderr --coverage-clover build/logs/clover.xml; fi
 
 after_success:
-  - if [[ $CODECOVERAGE == 1 ]]; then bash <(curl -s https://codecov.io/bash); fi
+  - if [[ $CODECOVERAGE == 1 ]]; then php vendor/bin/coveralls -c .coveralls.yml -v; fi"
 
 cache:
   directories:
