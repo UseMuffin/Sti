@@ -1,10 +1,8 @@
 language: php
 
 php:
-  - 5.4
-  - 5.5
   - 5.6
-  - 7
+  - 7.4
 
 sudo: false
 
@@ -13,7 +11,6 @@ env:
     - DB=mysql db_dsn='mysql://travis@0.0.0.0/cakephp_test'
     - DB=pgsql db_dsn='postgres://postgres@127.0.0.1/cakephp_test'
     - DB=sqlite db_dsn='sqlite:///:memory:'
-
   global:
     - DEFAULT=1
 
@@ -21,10 +18,10 @@ matrix:
   fast_finish: true
 
   include:
-    - php: 5.4
+    - php: 7.1
       env: PHPCS=1 DEFAULT=0
 
-    - php: 5.4
+    - php: 7.3
       env: COVERALLS=1 DEFAULT=0 DB=mysql db_dsn='mysql://travis@0.0.0.0/cakephp_test'
 
 before_script:

@@ -8,13 +8,13 @@ class UtensilsTable extends Table
 {
     public function initialize(array $config)
     {
-        $this->table('sti_utensils');
+        $this->setTable('sti_utensils');
         $this->addBehavior('Muffin/Sti.Sti', [
             'typeMap' => [
                 'spoon' => 'Muffin\Sti\TestApp\Model\Entity\Spoon',
                 'electronic' => 'Muffin\Sti\TestApp\Model\Entity\Electronic',
             ]
         ]);
-        $this->entityClass('Muffin\Sti\TestApp\Model\Entity\Spoon');
+        $this->setEntityClass('Muffin\Sti\TestApp\Model\Entity\Spoon');
     }
 }
