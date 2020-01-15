@@ -34,7 +34,8 @@
         "cakephp/cakephp": "^3.8"
     },
     "require-dev": {
-        "cakephp/cakephp-codesniffer": "^3.0"
+        "cakephp/cakephp-codesniffer": "^3.0",
+        "php-coveralls/php-coveralls": "^2.2"
     },
     "autoload": {
         "psr-4": {
