@@ -2,3 +2,4 @@
 /plugins
 /vendor
 /tmp
+/phpcs.xml

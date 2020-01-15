@@ -9,6 +9,7 @@ class AssistantChefsTable extends CooksTable
     public function validationDefault(Validator $validator)
     {
         $validator->notEmptyString('name', 'assistant chef');
+
         return $validator;
     }
 }

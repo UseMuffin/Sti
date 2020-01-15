@@ -14,7 +14,7 @@ class CooksTable extends Table
                 'chef' => 'Muffin\Sti\TestApp\Model\Entity\Chef',
                 'baker' => 'Muffin\Sti\TestApp\Model\Entity\Baker',
                 'assistant_chef' => 'Muffin\Sti\TestApp\Model\Entity\AssistantChef',
-            ]
+            ],
         ]);
         $this->hasMany('Utensils', [
             'className' => UtensilsTable::class,

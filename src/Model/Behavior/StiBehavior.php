@@ -16,7 +16,7 @@ class StiBehavior extends Behavior
     protected $_defaultConfig = [
         'table' => null,
         'typeField' => 'type',
-        'typeMap' => []
+        'typeMap' => [],
     ];
 
     protected $_typeMap = [];
@@ -126,6 +126,7 @@ class StiBehavior extends Behavior
             return $results->map(function ($row) {
                 $type = $row[$this->getConfig('typeField')];
                 $entityClass = $this->_typeMap[$type]['entityClass'];
+
                 return new $entityClass($row->forCopy(), [
                     'markNew' => $row->isNew(),
                     'markClean' => true,
@@ -229,13 +230,13 @@ class StiBehavior extends Behavior
 
         if (TableRegistry::getTableLocator()->exists($alias)) {
             $existingTable = TableRegistry::getTableLocator()->get($alias);
-            if ($table !== $existingTable->getTable()
+            if (
+                $table !== $existingTable->getTable()
                 || $connection !== $existingTable->getConnection()
                 || $entityClass !== $existingTable->getEntityClass()
             ) {
                 throw new \Exception();
             }
-
         }
 
         $this->_typeMap[$key] = compact('alias', 'entityClass', 'table', 'connection', 'className');

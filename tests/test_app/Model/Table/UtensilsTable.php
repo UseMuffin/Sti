@@ -13,7 +13,7 @@ class UtensilsTable extends Table
             'typeMap' => [
                 'spoon' => 'Muffin\Sti\TestApp\Model\Entity\Spoon',
                 'electronic' => 'Muffin\Sti\TestApp\Model\Entity\Electronic',
-            ]
+            ],
         ]);
         $this->setEntityClass('Muffin\Sti\TestApp\Model\Entity\Spoon');
     }

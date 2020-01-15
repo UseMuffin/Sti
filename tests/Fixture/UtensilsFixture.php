@@ -14,7 +14,7 @@ class UtensilsFixture extends TestFixture
         'type' => ['type' => 'string'],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id']],
-        ]
+        ],
     ];
 
     public $records = [
