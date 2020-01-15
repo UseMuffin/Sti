@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Sti\Model\Behavior;
 
 use ArrayObject;
@@ -6,6 +8,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
+use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
@@ -29,7 +32,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception If the Entity isn't using the trait \Muffin\Sti\Model\Entity\StiAwareTrait
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->verifyConfig();
 
@@ -51,7 +54,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function verifyConfig()
+    public function verifyConfig(): void
     {
         $config = $this->getConfig();
         $table = $this->_table();
@@ -102,7 +105,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    protected function _table($key = null)
+    protected function _table($key = null): Table
     {
         if ($key === null) {
             return $this->_table;
@@ -130,7 +133,7 @@ class StiBehavior extends Behavior
      *
      * @return void
      */
-    public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
+    public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary): void
     {
         if (!$query->isHydrationEnabled()) {
             return;
@@ -160,7 +163,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function buildValidator(Event $event, Validator $validator, $name)
+    public function buildValidator(Event $event, Validator $validator, $name): void
     {
         if ($name !== 'default') {
             return;
@@ -193,7 +196,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         $class = get_class($entity);
         $types = array_combine(
@@ -217,7 +220,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
         $field = $this->getConfig('typeField');
         if (empty($data[$field])) {
@@ -240,9 +243,9 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function addType($key, $entityClass)
+    public function addType($key, $entityClass): void
     {
-        list($namespace, $entityName) = explode('\\Entity\\', $entityClass);
+        [$namespace, $entityName] = explode('\\Entity\\', $entityClass);
         $connection = $this->_table->getConnection();
         $table = $this->getConfig('table');
         $alias = Inflector::pluralize($entityName);

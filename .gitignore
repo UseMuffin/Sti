@@ -4,3 +4,4 @@
 /tmp
 /phpcs.xml
 /phpunit.phar
+/.phpunit.result.cache

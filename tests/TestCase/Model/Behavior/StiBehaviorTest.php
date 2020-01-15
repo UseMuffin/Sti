@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Sti\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\Locator\TableLocator;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Muffin\Sti\TestApp\Model\Entity\Baker;
@@ -18,32 +19,32 @@ class StiBehaviorTest extends TestCase
         'plugin.Muffin/Sti.Utensils',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Table = TableRegistry::getTableLocator()->get('Cooks', ['className' => CooksTable::class]);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         TableRegistry::getTableLocator()->clear();
     }
 
-    public function testSave()
+    public function testSave(): void
     {
         $entity = new Baker(['name' => 'foo']);
         $this->Table->save($entity);
         $this->assertEquals('baker', $entity['type']);
     }
 
-    public function testBeforeMarshal()
+    public function testBeforeMarshal(): void
     {
         $entity = $this->Table->newEntity(['name' => 'foo', 'type' => 'baker']);
         $this->assertInstanceOf('Muffin\Sti\TestApp\Model\Entity\Baker', $entity);
     }
 
-    public function testBeforeFind()
+    public function testBeforeFind(): void
     {
         $results = $this->Table->find()->toArray();
         $this->assertInstanceOf('Muffin\Sti\TestApp\Model\Entity\Chef', $results[0]);
@@ -51,7 +52,7 @@ class StiBehaviorTest extends TestCase
         $this->assertEquals('Bakers', $results[1]->getSource());
     }
 
-    public function testValidation()
+    public function testValidation(): void
     {
         $expected = ['name' => ['_empty' => 'chef']];
 
@@ -68,7 +69,7 @@ class StiBehaviorTest extends TestCase
         $this->assertEquals($expected, $entity->getErrors());
     }
 
-    public function testFindWithAssociation()
+    public function testFindWithAssociation(): void
     {
         $results = $this->Table->find()->contain('Utensils')->toArray();
         $this->assertArrayNotHasKey('age', $results[0]->toArray());
@@ -77,7 +78,7 @@ class StiBehaviorTest extends TestCase
         $this->assertInstanceOf('Muffin\Sti\TestApp\Model\Entity\Electronic', $results[0]['utensils'][1]);
     }
 
-    public function testFindWithHydrateFalse()
+    public function testFindWithHydrateFalse(): void
     {
         $results = $this->Table->find()->contain('Utensils')->enableHydration(false)->toArray();
         $this->assertTrue(is_array($results[0]));

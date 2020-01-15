@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Sti\TestApp\Model\Table;
 
 use Cake\ORM\Table;
@@ -6,7 +8,7 @@ use Cake\Validation\Validator;
 
 class CooksTable extends Table
 {
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setTable('sti_cooks');
         $this->addBehavior('Muffin/Sti.Sti', [
@@ -21,7 +23,7 @@ class CooksTable extends Table
         ]);
     }
 
-    public function validationBaker(Validator $validator)
+    public function validationBaker(Validator $validator): Validator
     {
         return $validator->notEmptyString('name', 'baker');
     }

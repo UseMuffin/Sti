@@ -1,12 +1,13 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Sti\TestApp\Model\Table;
 
 use Cake\ORM\Table;
-use Cake\Validation\Validator;
 
 class UtensilsTable extends Table
 {
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setTable('sti_utensils');
         $this->addBehavior('Muffin/Sti.Sti', [

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Sti\Model\Entity;
 
 trait StiAwareTrait
@@ -10,6 +12,6 @@ trait StiAwareTrait
      */
     public function forCopy()
     {
-        return $this->_properties;
+        return $this->_fields;
     }
 }
