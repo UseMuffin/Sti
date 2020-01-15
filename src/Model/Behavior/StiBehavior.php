@@ -22,9 +22,12 @@ class StiBehavior extends Behavior
     protected $_typeMap = [];
 
     /**
-     * @param array $config
+     * Initialized the Sti Behavior
      *
-     * @throws \Exception
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     *
+     * @throws \Exception If the Entity isn't using the trait \Muffin\Sti\Model\Entity\StiAwareTrait
      */
     public function initialize(array $config)
     {
@@ -42,6 +45,10 @@ class StiBehavior extends Behavior
     }
 
     /**
+     * Verifies the configuration of the Behavior
+     *
+     * @return void
+     *
      * @throws \Exception
      */
     public function verifyConfig()
@@ -65,15 +72,17 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param $method
-     * @param $args
+     * Implementes magic methods for `newXXX`
+     *
+     * @param string $name Method name being called
+     * @param array $args arguments passed to the original method
      *
      * @return mixed
      * @throws \Exception
      */
-    public function __call($method, $args)
+    public function __call($name, array $args)
     {
-        $type = Inflector::underscore(substr($method, 3));
+        $type = Inflector::underscore(substr($name, 3));
 
         if (!isset($args[0])) {
             $args[0] = [];
@@ -85,9 +94,12 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param string|null $key
+     * Gets the real table
+     *
+     * @param string|null $key Table to find
      *
      * @return \Cake\ORM\Table
+     *
      * @throws \Exception
      */
     protected function _table($key = null)
@@ -111,10 +123,12 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param \Cake\Event\Event $event
-     * @param \Cake\ORM\Query $query
-     * @param \ArrayObject $options
-     * @param $primary
+     * @param \Cake\Event\Event $event Event
+     * @param \Cake\ORM\Query $query Quey
+     * @param \ArrayObject $options Options
+     * @param bool $primary If primary
+     *
+     * @return void
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
@@ -138,9 +152,11 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param \Cake\Event\Event $event
-     * @param \Cake\Validation\Validator $validator
-     * @param $name
+     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Validation\Validator $validator Original Validator
+     * @param string $name Name of validator that is being built
+     *
+     * @return void
      *
      * @throws \Exception
      */
@@ -169,9 +185,11 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param \Cake\Event\Event $event
-     * @param \Cake\Datasource\EntityInterface $entity
-     * @param \ArrayObject $options
+     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Datasource\EntityInterface $entity Entity to save
+     * @param \ArrayObject $options Options
+     *
+     * @return void
      *
      * @throws \Exception
      */
@@ -191,9 +209,11 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param \Cake\Event\Event $event
-     * @param \ArrayObject $data
-     * @param \ArrayObject $options
+     * @param \Cake\Event\Event $event Event
+     * @param \ArrayObject $data Data to marshall
+     * @param \ArrayObject $options Options
+     *
+     * @return void
      *
      * @throws \Exception
      */
@@ -212,8 +232,11 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param $key
-     * @param $entityClass
+     * Adds the type and implements magic newXxx method
+     * @param string $key Key
+     * @param string $entityClass Entity to add
+     *
+     * @return void
      *
      * @throws \Exception
      */

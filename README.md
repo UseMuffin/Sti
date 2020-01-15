@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/sti.svg?style=flat-square)](https://packagist.org/packages/muffin/sti)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-Single Table Inheritance for CakePHP 3.8+ ORM.
+Single Table Inheritance for CakePHP 3 ORM.
 
 > [...] a way to emulate object-oriented inheritance in a relational database. When mapping from a database
 > table to an object in an object-oriented language, a field in the database identifies what class in the
