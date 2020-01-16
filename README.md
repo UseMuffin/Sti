@@ -5,10 +5,10 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/sti.svg?style=flat-square)](https://packagist.org/packages/muffin/sti)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-Single Table Inheritance for CakePHP 3 ORM.
+Single Table Inheritance for CakePHP ORM.
 
-> [...] a way to emulate object-oriented inheritance in a relational database. When mapping from a database 
-> table to an object in an object-oriented language, a field in the database identifies what class in the 
+> [...] a way to emulate object-oriented inheritance in a relational database. When mapping from a database
+> table to an object in an object-oriented language, a field in the database identifies what class in the
 > hierarchy the object belongs to.
 
 (source: [Wikipedia][1])
@@ -18,19 +18,13 @@ Single Table Inheritance for CakePHP 3 ORM.
 Using [Composer][composer]:
 
 ```
-composer require muffin/sti:1.0.x-dev
+composer require muffin/sti
 ```
 
-You then need to load the plugin. You can use the shell command:
+You then need to load the plugin. You can use the console command:
 
 ```
 bin/cake plugin load Muffin/Sti
-```
-
-or by manually adding statement shown below to `bootstrap.php`:
-
-```php
-Plugin::load('Muffin/Sti');
 ```
 
 ## Usage
@@ -41,8 +35,8 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 
-class CooksTable extends Table {
-
+class CooksTable extends Table
+{
     public function initialize($config)
     {
         $this->table('sti_cooks');
@@ -56,7 +50,7 @@ class CooksTable extends Table {
 
         // Optionally, set the default type. If none is defined, the
         // first one (i.e. `chef`) will be used.
-        $this->entityClass('App\Model\Entity\AssistantChef');
+        $this->setEntityClass('App\Model\Entity\AssistantChef');
     }
 }
 ```
@@ -69,7 +63,7 @@ Then create a class for every type of entity:
 
 The entity that was previously defined to be the 'default' one will need to use the `StiAwareTrait`:
 
-```
+```php
 <?php // src/Model/Entity/AssistantChef.php
 namespace App\Model\Entity;
 
@@ -88,7 +82,7 @@ Optionally, you can create classes for your tables that extend the parent table 
 <?php // src/Model/Table/ChefsTable.php
 namespace App\Model\Table;
 
-class ChefsTable extends CooksTable 
+class ChefsTable extends CooksTable
 {
   // ...
 }
@@ -107,25 +101,25 @@ public function validationChefs(Validator $validator)
 ```
 
 ### New entities
- 
- The behavior will automatically add helper methods for creating entities of different types 
+
+ The behavior will automatically add helper methods for creating entities of different types
  (i.e. `newChef()`). There are different ways of creating new entities, all are valid and depending
  on the cases, you might need one or the other:
- 
+
  ```php
  // using the parent table
  $cooks->newChef([...]);
- 
+
  // or, using the parent table again
  $cooks->newEntity(['type' => 'chef', ...]);
- 
+
  // or, using the child table
  $chefs->newEntity([...]);
  ```
 
 ### Note
 
-For the above examples to work using (*chef), you need to add a custom rule to the `Inflector`: 
+For the above examples to work using (*chef), you need to add a custom rule to the `Inflector`:
 
 ```php
 Cake\Utility\Inflector::rules('plural', ['/chef$/i' => '\1Chefs']);
@@ -148,7 +142,7 @@ http://github.com/usemuffin/sti/issues
 
 ## License
 
-Copyright (c) 2015, [Use Muffin][muffin] and licensed under [The MIT License][mit].
+Copyright (c) 2015-Present, [Use Muffin][muffin] and licensed under [The MIT License][mit].
 
 [cakephp]:http://cakephp.org
 [composer]:http://getcomposer.org
