@@ -25,7 +25,7 @@ class StiBehavior extends Behavior
     protected $_typeMap = [];
 
     /**
-     * Initialized the Sti Behavior
+     * Initialize the Sti Behavior
      *
      * @param array $config Configuration options passed to the constructor
      * @return void
@@ -83,7 +83,7 @@ class StiBehavior extends Behavior
      * @return mixed
      * @throws \Exception
      */
-    public function __call($name, array $args)
+    public function __call(string $name, array $args)
     {
         $type = Inflector::underscore(substr($name, 3));
 
@@ -105,7 +105,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    protected function _table($key = null): Table
+    protected function _table(?string $key = null): Table
     {
         if ($key === null) {
             return $this->_table;
@@ -133,15 +133,15 @@ class StiBehavior extends Behavior
      *
      * @return void
      */
-    public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary): void
+    public function beforeFind(Event $event, Query $query, ArrayObject $options, bool $primary): void
     {
         if (!$query->isHydrationEnabled()) {
             return;
         }
 
-        $query->formatResults(function ($results) {
+        $query->formatResults(function (\Cake\ORM\ResultSet $results) {
             return $results->map(function ($row) {
-                $type = $row[$this->getConfig('typeField')];
+                $type = $row->get($this->getConfig('typeField'));
                 $entityClass = $this->_typeMap[$type]['entityClass'];
 
                 return new $entityClass($row->forCopy(), [
@@ -163,7 +163,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function buildValidator(Event $event, Validator $validator, $name): void
+    public function buildValidator(Event $event, Validator $validator, string $name): void
     {
         if ($name !== 'default') {
             return;
@@ -243,7 +243,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function addType($key, $entityClass): void
+    public function addType(string $key, string $entityClass): void
     {
         [$namespace, $entityName] = explode('\\Entity\\', $entityClass);
         $connection = $this->_table->getConnection();
