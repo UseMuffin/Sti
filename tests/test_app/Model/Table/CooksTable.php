@@ -23,6 +23,10 @@ class CooksTable extends Table
 
     public function validationBaker(Validator $validator)
     {
-        return $validator->notEmptyString('name', 'baker');
+        if (method_exists($validator, 'notEmptyString')) {
+            $validator->notEmptyString('name', 'baker');
+        } else {
+            $validator->notEmpty('name', 'baker');
+        }
     }
 }
