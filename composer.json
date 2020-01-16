@@ -1,6 +1,6 @@
 {
     "name": "muffin/sti",
-    "description": "Single Table Inheritance for CakePHP 3 ORM",
+    "description": "Single Table Inheritance for CakePHP ORM",
     "type": "cakephp-plugin",
     "keywords": [
         "cakephp",

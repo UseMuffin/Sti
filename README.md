@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/sti.svg?style=flat-square)](https://packagist.org/packages/muffin/sti)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-Single Table Inheritance for CakePHP 3 ORM.
+Single Table Inheritance for CakePHP ORM.
 
 > [...] a way to emulate object-oriented inheritance in a relational database. When mapping from a database
 > table to an object in an object-oriented language, a field in the database identifies what class in the
@@ -18,10 +18,10 @@ Single Table Inheritance for CakePHP 3 ORM.
 Using [Composer][composer]:
 
 ```
-composer require muffin/sti:1.0.x-dev
+composer require muffin/sti
 ```
 
-You then need to load the plugin. You can use the shell command:
+You then need to load the plugin. You can use the console command:
 
 ```
 bin/cake plugin load Muffin/Sti
@@ -35,8 +35,8 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 
-class CooksTable extends Table {
-
+class CooksTable extends Table
+{
     public function initialize($config)
     {
         $this->table('sti_cooks');
@@ -63,7 +63,7 @@ Then create a class for every type of entity:
 
 The entity that was previously defined to be the 'default' one will need to use the `StiAwareTrait`:
 
-```
+```php
 <?php // src/Model/Entity/AssistantChef.php
 namespace App\Model\Entity;
 
@@ -142,7 +142,7 @@ http://github.com/usemuffin/sti/issues
 
 ## License
 
-Copyright (c) 2015, [Use Muffin][muffin] and licensed under [The MIT License][mit].
+Copyright (c) 2015-Present, [Use Muffin][muffin] and licensed under [The MIT License][mit].
 
 [cakephp]:http://cakephp.org
 [composer]:http://getcomposer.org
