@@ -1,7 +1,7 @@
 # Sti
 
 [![Build Status](https://img.shields.io/travis/UseMuffin/Sti/master.svg?style=flat-square)](https://travis-ci.org/UseMuffin/Sti)
-[![Coverage](https://img.shields.io/coveralls/UseMuffin/Sti/master.svg?style=flat-square)](https://coveralls.io/r/UseMuffin/Sti)
+[![Coverage](https://img.shields.io/coveralls/github/UseMuffin/Sti?style=flat-square)](https://codecov.io/gh/UseMuffin/Sti)
 [![Total Downloads](https://img.shields.io/packagist/dt/muffin/sti.svg?style=flat-square)](https://packagist.org/packages/muffin/sti)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
