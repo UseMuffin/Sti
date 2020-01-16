@@ -13,12 +13,22 @@ use Cake\Validation\Validator;
 
 class StiBehavior extends Behavior
 {
+    /**
+     * Default config
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'table' => null,
         'typeField' => 'type',
         'typeMap' => [],
     ];
 
+    /**
+     * Type map
+     *
+     * @var array
+     */
     protected $_typeMap = [];
 
     /**
