@@ -1,3 +1,6 @@
 /composer.lock
 /plugins
 /vendor
+/tmp
+/phpcs.xml
+/phpunit.phar

@@ -8,6 +8,7 @@ use Muffin\Sti\Model\Entity\StiAwareTrait;
 class Chef extends Entity
 {
     use StiAwareTrait;
+
     protected $_hidden = [
         'age',
     ];

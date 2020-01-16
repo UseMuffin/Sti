@@ -14,12 +14,12 @@ class CooksFixture extends TestFixture
         'age' => ['type' => 'integer'],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id']],
-        ]
+        ],
     ];
 
     public $records = [
         ['name' => 'The Chef', 'type' => 'chef', 'age' => 50],
         ['name' => 'The Baker', 'type' => 'baker', 'age' => 40],
-        ['name' => 'The Assistant Chef', 'type' => 'assistant_chef', 'age' => 20]
+        ['name' => 'The Assistant Chef', 'type' => 'assistant_chef', 'age' => 20],
     ];
 }
