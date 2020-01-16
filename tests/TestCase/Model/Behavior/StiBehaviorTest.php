@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Sti\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\Locator\TableLocator;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Muffin\Sti\TestApp\Model\Entity\Baker;
@@ -12,19 +13,20 @@ class StiBehaviorTest extends TestCase
     /**
      * @var \Muffin\Sti\TestApp\Model\Table\CooksTable|null
      */
-    public $Table = null;
-    public $fixtures = [
+    protected $Table = null;
+
+    protected $fixtures = [
         'plugin.Muffin/Sti.Cooks',
         'plugin.Muffin/Sti.Utensils',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Table = TableRegistry::getTableLocator()->get('Cooks', ['className' => CooksTable::class]);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         TableRegistry::getTableLocator()->clear();

@@ -1,11 +1,15 @@
 <?php
+declare(strict_types=1);
+
 namespace Muffin\Sti\Model\Behavior;
 
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
+use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
@@ -39,7 +43,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception If the Entity isn't using the trait \Muffin\Sti\Model\Entity\StiAwareTrait
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->verifyConfig();
 
@@ -61,7 +65,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function verifyConfig()
+    public function verifyConfig(): void
     {
         $config = $this->getConfig();
         $table = $this->_table();
@@ -112,7 +116,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    protected function _table($key = null)
+    protected function _table(?string $key = null): Table
     {
         if ($key === null) {
             return $this->_table;
@@ -133,14 +137,14 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Event\EventInterface $event Event
      * @param \Cake\ORM\Query $query Quey
      * @param \ArrayObject $options Options
      * @param bool $primary If primary
      *
      * @return void
      */
-    public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
+    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary)
     {
         if (!$query->isHydrationEnabled()) {
             return;
@@ -162,7 +166,7 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Event\EventInterface $event Event
      * @param \Cake\Validation\Validator $validator Original Validator
      * @param string $name Name of validator that is being built
      *
@@ -170,7 +174,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function buildValidator(Event $event, Validator $validator, $name)
+    public function buildValidator(EventInterface $event, Validator $validator, string $name)
     {
         if ($name !== 'default') {
             return;
@@ -195,7 +199,7 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Event\EventInterface $event Event
      * @param \Cake\Datasource\EntityInterface $entity Entity to save
      * @param \ArrayObject $options Options
      *
@@ -203,7 +207,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
         $class = get_class($entity);
         $types = array_combine(
@@ -219,7 +223,7 @@ class StiBehavior extends Behavior
     }
 
     /**
-     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Event\EventInterface $event Event
      * @param \ArrayObject $data Data to marshall
      * @param \ArrayObject $options Options
      *
@@ -227,7 +231,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options)
     {
         $field = $this->getConfig('typeField');
         if (empty($data[$field])) {
@@ -250,9 +254,9 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function addType($key, $entityClass)
+    public function addType(string $key, string $entityClass): void
     {
-        list($namespace, $entityName) = explode('\\Entity\\', $entityClass);
+        [$namespace, $entityName] = explode('\\Entity\\', $entityClass);
         $connection = $this->_table->getConnection();
         $table = $this->getConfig('table');
         $alias = Inflector::pluralize($entityName);
