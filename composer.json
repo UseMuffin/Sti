@@ -35,7 +35,6 @@
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "^3.0",
-        "php-coveralls/php-coveralls": "^2.2",
         "phpunit/phpunit": "^5.7.14|^6.0"
     },
     "autoload": {
@@ -47,19 +46,6 @@
         "psr-4": {
             "Muffin\\Sti\\Test\\": "tests",
             "Muffin\\Sti\\TestApp\\": "tests/test_app"
-        }
-    },
-    "scripts": {
-        "phpstan": "phpstan analyse -c tests/phpstan.neon -l 5 src/",
-        "phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan-shim:^0.11 && mv composer.backup composer.json",
-        "test": "php phpunit.phar",
-        "test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-6.5.13.phar && mv phpunit-6.5.13.phar phpunit.phar || true",
-        "cs-check": "phpcs -p --ignore=/config/Migrations/ --extensions=php src/ tests/",
-        "cs-fix": "phpcbf -v --ignore=/config/Migrations/ --extensions=php src/ tests/"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
         }
     }
 }
