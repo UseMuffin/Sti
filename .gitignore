@@ -3,4 +3,4 @@
 /vendor
 /tmp
 /phpcs.xml
-/phpunit.phar
+/phpunit.xml
