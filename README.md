@@ -37,20 +37,20 @@ use Cake\ORM\Table;
 
 class CooksTable extends Table
 {
-    public function initialize($config)
+    public function initialize(array $config): void
     {
-        $this->table('sti_cooks');
+        $this->setTable('sti_cooks');
         $this->addBehavior('Muffin/Sti.Sti', [
             'typeMap' => [
-                'chef' => 'App\Model\Entity\Chef',
-                'baker' => 'App\Model\Entity\Baker',
-                'assistant_chef' => 'App\Model\Entity\AssistantChef',
+                'chef' => App\Model\Entity\Chef::class,
+                'baker' => App\Model\Entity\Baker::class,
+                'assistant_chef' => App\Model\Entity\AssistantChef::class,
             ]
         ]);
 
         // Optionally, set the default type. If none is defined, the
         // first one (i.e. `chef`) will be used.
-        $this->setEntityClass('App\Model\Entity\AssistantChef');
+        $this->setEntityClass('AssistantChef');
     }
 }
 ```
@@ -93,7 +93,7 @@ on the parent table. For example, to add custom rules to chefs:
 
 ```php
 // src/Model/Table/CooksTable.php
-public function validationChefs(Validator $validator)
+public function validationChefs(Validator $validator): Validator
 {
     // ...
     return $validator;
