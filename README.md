@@ -39,7 +39,7 @@ class CooksTable extends Table
 {
     public function initialize($config)
     {
-        $this->table('sti_cooks');
+        $this->setTable('sti_cooks');
         $this->addBehavior('Muffin/Sti.Sti', [
             'typeMap' => [
                 'chef' => 'App\Model\Entity\Chef',
