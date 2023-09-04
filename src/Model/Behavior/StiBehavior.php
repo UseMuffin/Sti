@@ -14,6 +14,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
+use Exception;
 
 class StiBehavior extends Behavior
 {
@@ -54,7 +55,7 @@ class StiBehavior extends Behavior
         }
 
         if (!method_exists($defaultEntityClass, 'forCopy')) {
-            throw new \Exception($defaultEntityClass . ' is not using the StiAwareTrait');
+            throw new Exception($defaultEntityClass . ' is not using the StiAwareTrait');
         }
     }
 
@@ -71,7 +72,7 @@ class StiBehavior extends Behavior
         $table = $this->_table();
 
         if (!in_array($config['typeField'], $table->getSchema()->columns())) {
-            throw new \Exception();
+            throw new Exception();
         }
 
         if (!$config['table']) {
@@ -123,7 +124,7 @@ class StiBehavior extends Behavior
         }
 
         if (!isset($this->_typeMap[$key])) {
-            throw new \Exception();
+            throw new Exception();
         }
 
         $options = $this->_typeMap[$key];
@@ -215,7 +216,7 @@ class StiBehavior extends Behavior
         );
 
         if (!array_key_exists($class, $types)) {
-            throw new \Exception();
+            throw new Exception();
         }
 
         $entity->set($this->getConfig('typeField'), $types[$class]);
@@ -238,7 +239,7 @@ class StiBehavior extends Behavior
         }
 
         if (!array_key_exists($data[$field], $this->_typeMap)) {
-            throw new \Exception();
+            throw new Exception();
         }
 
         $this->_table()->setEntityClass($this->_typeMap[$data[$field]]['entityClass']);
@@ -271,7 +272,7 @@ class StiBehavior extends Behavior
                 || $connection !== $existingTable->getConnection()
                 || $entityClass !== $existingTable->getEntityClass()
             ) {
-                throw new \Exception();
+                throw new Exception();
             }
         }
 
