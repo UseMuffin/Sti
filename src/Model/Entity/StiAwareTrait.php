@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Muffin\Sti\Model\Entity;
 
+/**
+ * StiAwareTrait
+ */
 trait StiAwareTrait
 {
     /**
