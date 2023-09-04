@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Muffin\Sti\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
+use Cake\ORM\Table;
 use Cake\TestSuite\TestCase;
 use Muffin\Sti\TestApp\Model\Entity\Baker;
 use Muffin\Sti\TestApp\Model\Table\CooksTable;
@@ -13,9 +13,9 @@ class StiBehaviorTest extends TestCase
     /**
      * @var \Muffin\Sti\TestApp\Model\Table\CooksTable|null
      */
-    protected $Table = null;
+    protected null|Table|CooksTable $Table = null;
 
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.Muffin/Sti.Cooks',
         'plugin.Muffin/Sti.Utensils',
     ];
@@ -23,13 +23,14 @@ class StiBehaviorTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->Table = TableRegistry::getTableLocator()->get('Cooks', ['className' => CooksTable::class]);
+
+        $this->Table = $this->getTableLocator()->get('Cooks', ['className' => CooksTable::class]);
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        TableRegistry::getTableLocator()->clear();
+        $this->getTableLocator()->clear();
     }
 
     public function testSave()
@@ -64,8 +65,8 @@ class StiBehaviorTest extends TestCase
         $entity = $this->Table->newEntity(['name' => null, 'type' => 'chef']);
         $this->assertEquals($expected, $entity->getErrors());
 
-        TableRegistry::getTableLocator()->clear();
-        $table = TableRegistry::getTableLocator()->get('Chefs', ['className' => 'Muffin\Sti\TestApp\Model\Table\ChefsTable']);
+        $this->getTableLocator()->clear();
+        $table = $this->getTableLocator()->get('Chefs', ['className' => 'Muffin\Sti\TestApp\Model\Table\ChefsTable']);
         $entity = $table->newEntity(['name' => null]);
         $this->assertEquals($expected, $entity->getErrors());
     }

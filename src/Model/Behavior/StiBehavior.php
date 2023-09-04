@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace Muffin\Sti\Model\Behavior;
 
 use ArrayObject;
+use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
@@ -21,7 +22,7 @@ class StiBehavior extends Behavior
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'table' => null,
         'typeField' => 'type',
         'typeMap' => [],
@@ -32,7 +33,7 @@ class StiBehavior extends Behavior
      *
      * @var array
      */
-    protected $_typeMap = [];
+    protected array $_typeMap = [];
 
     /**
      * Initialized the Sti Behavior
@@ -93,7 +94,7 @@ class StiBehavior extends Behavior
      * @return mixed
      * @throws \Exception
      */
-    public function __call($name, array $args)
+    public function __call(string $name, array $args)
     {
         $type = Inflector::underscore(substr($name, 3));
 
@@ -137,20 +138,20 @@ class StiBehavior extends Behavior
 
     /**
      * @param \Cake\Event\EventInterface $event Event
-     * @param \Cake\ORM\Query $query Quey
+     * @param \Cake\ORM\Query\SelectQuery $query Quey
      * @param \ArrayObject $options Options
      * @param bool $primary If primary
      *
      * @return void
      */
-    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary)
+    public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void
     {
         if (!$query->isHydrationEnabled()) {
             return;
         }
 
-        $query->formatResults(function ($results) {
-            return $results->map(function ($row) {
+        $query->formatResults(fn(CollectionInterface $results): CollectionInterface => $results
+            ->map(function ($row) {
                 $type = $row[$this->getConfig('typeField')];
                 $entityClass = $this->_typeMap[$type]['entityClass'];
 
@@ -160,8 +161,7 @@ class StiBehavior extends Behavior
                     'guard' => false,
                     'source' => $this->_typeMap[$type]['alias'],
                 ]);
-            });
-        });
+            }));
     }
 
     /**
@@ -173,7 +173,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function buildValidator(EventInterface $event, Validator $validator, string $name)
+    public function buildValidator(EventInterface $event, Validator $validator, string $name): void
     {
         if ($name !== 'default') {
             return;
@@ -206,7 +206,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
     {
         $class = get_class($entity);
         $types = array_combine(
@@ -230,7 +230,7 @@ class StiBehavior extends Behavior
      *
      * @throws \Exception
      */
-    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options)
+    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
     {
         $field = $this->getConfig('typeField');
         if (empty($data[$field])) {

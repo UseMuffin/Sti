@@ -11,15 +11,15 @@ class Chef extends Entity
 {
     use StiAwareTrait;
 
-    protected $_hidden = [
+    protected array $_hidden = [
         'age',
     ];
 
-    protected $_virtual = [
+    protected array $_virtual = [
         'role',
     ];
 
-    protected function _getRole()
+    protected function _getRole(): string
     {
         return Inflector::humanize($this->type);
     }
