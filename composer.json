@@ -33,6 +33,7 @@
         "cakephp/orm": "^4.0"
     },
     "require-dev": {
+        "cakephp/cakephp": "^4.0",
         "cakephp/cakephp-codesniffer": "^4.0",
         "phpunit/phpunit": "~8.5.0"
     },
@@ -45,6 +46,11 @@
         "psr-4": {
             "Muffin\\Sti\\Test\\": "tests",
             "Muffin\\Sti\\TestApp\\": "tests/test_app"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }
